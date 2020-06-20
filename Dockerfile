@@ -1,20 +1,16 @@
 FROM golang:1.14-alpine
 
-RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh
-
-WORKDIR /app
+#RUN apk update && apk upgrade && \
+#    apk add --no-cache bash git openssh
 
 ENV GOPROXY https://goproxy.cn
 
-COPY go.mod .
+WORKDIR /data/go_docker/
 
-RUN go mod download
-
-COPY docker .
-
-RUN go build -o main .
+ADD  ./main main
 
 EXPOSE 8080
 
-CMD ["./main"]
+RUN apk add --no-cache bash git openssh
+
+ENTRYPOINT ["./main"]

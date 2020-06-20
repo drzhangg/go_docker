@@ -8,7 +8,7 @@ import (
 
 var Engine *gorm.DB
 
-var dataSource = "root:root@(127.0.0.1:3306)/test?charset=utf8&parseTime=True&loc=Local"
+var dataSource = "root:root123456@(47.103.9.218:3306)/test?charset=utf8&parseTime=True&loc=Local"
 
 func GetDb() {
 	db, err := gorm.Open("mysql", dataSource)
