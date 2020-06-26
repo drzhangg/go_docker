@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+//option go_package = "user/pb/";
+
+package user;
+
+service user {
+    rpc RegisterUser (RegisterUserReq) returns (RegisterUserRsp) {
+    }
+    rpc GetUser (GetUserReq) returns (GetUserRsp) {
+    }
+    rpc DelUser (DelUserReq) returns (DelUserRsp) {
+    }
+}
+
+message RegisterUserReq {
+    User user = 1;
+}
+
+message RegisterUserRsp {
+    string msg = 1;
+}
+
+message GetUserReq {
+    string name = 1;
+}
+
+message GetUserRsp {
+    User user = 1;
+}
+
+
+message DelUserReq {
+    string name = 1;
+}
+
+message DelUserRsp {
+    string msg = 1;
+}
+
+message User {
+    int64 id = 1;
+    string name = 2;
+    int64 age = 3;
+    int64 salary = 4;
+}
