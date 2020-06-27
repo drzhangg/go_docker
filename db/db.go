@@ -1,6 +1,8 @@
 package db
 
 import (
+	"demo/config"
+	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"log"
@@ -8,9 +10,10 @@ import (
 
 var Engine *gorm.DB
 
-var dataSource = "root:root123456@(47.103.9.218:3306)/test?charset=utf8&parseTime=True&loc=Local"
+var dataSource = "%s:%s@(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local"
 
 func GetDb() {
+	dataSource = fmt.Sprintf(dataSource, config.DBConfig().User, config.DBConfig().Password, config.DBConfig().Host, config.DBConfig().Port, config.DBConfig().Database)
 	db, err := gorm.Open("mysql", dataSource)
 	if err != nil {
 		log.Fatal(err)

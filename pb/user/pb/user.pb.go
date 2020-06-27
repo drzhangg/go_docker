@@ -4,8 +4,12 @@
 package user
 
 import (
+	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -347,4 +351,156 @@ var fileDescriptor_c4f917211a932270 = []byte{
 	0x8f, 0x70, 0x05, 0xc7, 0xa1, 0x0e, 0x9c, 0x7b, 0x4f, 0xec, 0xaf, 0x4e, 0x36, 0x23, 0x10, 0xee,
 	0x3b, 0x02, 0xb1, 0xa0, 0x3a, 0xd9, 0x38, 0x60, 0x33, 0x93, 0x77, 0x7f, 0xf8, 0x0e, 0x00, 0x00,
 	0xff, 0xff, 0xd0, 0x18, 0x8f, 0x7e, 0x08, 0x02, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// UserClient is the client API for User service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type UserClient interface {
+	RegisterUser(ctx context.Context, in *RegisterUserReq, opts ...grpc.CallOption) (*RegisterUserRsp, error)
+	GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*GetUserRsp, error)
+	DelUser(ctx context.Context, in *DelUserReq, opts ...grpc.CallOption) (*DelUserRsp, error)
+}
+
+type userClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewUserClient(cc *grpc.ClientConn) UserClient {
+	return &userClient{cc}
+}
+
+func (c *userClient) RegisterUser(ctx context.Context, in *RegisterUserReq, opts ...grpc.CallOption) (*RegisterUserRsp, error) {
+	out := new(RegisterUserRsp)
+	err := c.cc.Invoke(ctx, "/user.user/RegisterUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*GetUserRsp, error) {
+	out := new(GetUserRsp)
+	err := c.cc.Invoke(ctx, "/user.user/GetUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) DelUser(ctx context.Context, in *DelUserReq, opts ...grpc.CallOption) (*DelUserRsp, error) {
+	out := new(DelUserRsp)
+	err := c.cc.Invoke(ctx, "/user.user/DelUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// UserServer is the server API for User service.
+type UserServer interface {
+	RegisterUser(context.Context, *RegisterUserReq) (*RegisterUserRsp, error)
+	GetUser(context.Context, *GetUserReq) (*GetUserRsp, error)
+	DelUser(context.Context, *DelUserReq) (*DelUserRsp, error)
+}
+
+// UnimplementedUserServer can be embedded to have forward compatible implementations.
+type UnimplementedUserServer struct {
+}
+
+func (*UnimplementedUserServer) RegisterUser(ctx context.Context, req *RegisterUserReq) (*RegisterUserRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterUser not implemented")
+}
+func (*UnimplementedUserServer) GetUser(ctx context.Context, req *GetUserReq) (*GetUserRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
+}
+func (*UnimplementedUserServer) DelUser(ctx context.Context, req *DelUserReq) (*DelUserRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DelUser not implemented")
+}
+
+func RegisterUserServer(s *grpc.Server, srv UserServer) {
+	s.RegisterService(&_User_serviceDesc, srv)
+}
+
+func _User_RegisterUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).RegisterUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.user/RegisterUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).RegisterUser(ctx, req.(*RegisterUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.user/GetUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetUser(ctx, req.(*GetUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_DelUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DelUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).DelUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.user/DelUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).DelUser(ctx, req.(*DelUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _User_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "user.user",
+	HandlerType: (*UserServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "RegisterUser",
+			Handler:    _User_RegisterUser_Handler,
+		},
+		{
+			MethodName: "GetUser",
+			Handler:    _User_GetUser_Handler,
+		},
+		{
+			MethodName: "DelUser",
+			Handler:    _User_DelUser_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/user.proto",
 }

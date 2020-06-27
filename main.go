@@ -1,6 +1,7 @@
 package main
 
 import (
+	"demo/config"
 	"demo/router"
 	"github.com/gin-gonic/gin"
 )
@@ -14,5 +15,6 @@ func main() {
 		v1.POST("/getUser", router.GetUser)
 		v1.POST("/deleteUser", router.DelUser)
 	}
+	config.DBConfig()
 	r.Run(":8080")
 }
